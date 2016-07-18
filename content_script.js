@@ -19,6 +19,8 @@ if (videos.length === 1) {
 	});
 
 	// ホイールで音量変更
+	// 下から40pxの領域ではシークする
+	const seekAreaHeight = 40;
 	let changeVolume = diff => {
 		// volume: [0, 1]
 		let vol = video.volume;
@@ -27,10 +29,18 @@ if (videos.length === 1) {
 		vol = Math.max(vol, 0);
 		video.volume = vol;
 	};
+	let seek = diff => {
+		video.currentTime += diff;
+	};
 	video.addEventListener("wheel", evt => {
 		// 下方向へのスクロール: 正
 		let toBottom = evt.deltaY > 0;
-		changeVolume(0.1 * (toBottom ? -1 : 1));
+		let pxFromBottom = video.clientHeight - evt.offsetY;
+		if (pxFromBottom < seekAreaHeight) {
+			seek(5 * (toBottom ? 1 : -1));
+		} else {
+			changeVolume(0.1 * (toBottom ? -1 : 1));
+		}
 	});
 
 	// ダブルクリックで最大化/最大化解除
