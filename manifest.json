@@ -1,0 +1,16 @@
+{
+	"name": "動画プレイヤー補助",
+	"version": "0.1.0",
+	"manifest_version": 2,
+
+	"description": "ローカルのmp4動画を再生した時にコントローラーを補助する",
+
+	"content_scripts": [{
+		"matches": [
+			"file:///*.mp4"
+		],
+		"js": [
+			"content_script.js"
+		]
+	}]
+}
