@@ -17,4 +17,19 @@ if (videos.length === 1) {
 			video.play();
 		}
 	});
+
+	// ホイールで音量変更
+	let changeVolume = diff => {
+		// volume: [0, 1]
+		let vol = video.volume;
+		vol += diff;
+		vol = Math.min(vol, 1);
+		vol = Math.max(vol, 0);
+		video.volume = vol;
+	};
+	video.addEventListener("wheel", evt => {
+		// 下方向へのスクロール: 正
+		let toBottom = evt.deltaY > 0;
+		changeVolume(0.1 * (toBottom ? -1 : 1));
+	});
 }
