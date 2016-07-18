@@ -32,4 +32,18 @@ if (videos.length === 1) {
 		let toBottom = evt.deltaY > 0;
 		changeVolume(0.1 * (toBottom ? -1 : 1));
 	});
+
+	// ダブルクリックで最大化/最大化解除
+	let isFullScreen = () => document.webkitIsFullScreen;
+	let requestFullScreen = elem => elem.webkitRequestFullScreen();
+	let cancelFullScreen = () => document.webkitCancelFullScreen();
+	video.addEventListener("dblclick", evt => {
+		// TODO: ダブルクリック時に一時停止・再生がされないようにする
+		// 		（clickイベントの中でsetTimeoutを使ってうまくやる）
+		if (isFullScreen()) {
+			cancelFullScreen();
+		} else {
+			requestFullScreen(video);
+		}
+	});
 }
