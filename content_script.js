@@ -47,7 +47,7 @@ if (videos.length === 1) {
 	const isFullScreen = () => document.webkitIsFullScreen;
 	const requestFullScreen = elem => elem.webkitRequestFullScreen();
 	const cancelFullScreen = () => document.webkitCancelFullScreen();
-	video.addEventListener("dblclick", evt => {
+	const toggleFullScreen = () => {
 		// TODO: ダブルクリック時に一時停止・再生がされないようにする
 		// 		（clickイベントの中でsetTimeoutを使ってうまくやる）
 		if (isFullScreen()) {
@@ -55,5 +55,6 @@ if (videos.length === 1) {
 		} else {
 			requestFullScreen(video);
 		}
-	});
+	};
+	video.addEventListener("dblclick", toggleFullScreen);
 }
