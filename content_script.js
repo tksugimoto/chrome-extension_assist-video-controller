@@ -63,6 +63,8 @@ if (videos.length === 1) {
 	shortcutFunctions["Enter"] = toggleFullScreen;
 	shortcutFunctions["ArrowUp"] = () => changeVolume(0.1);
 	shortcutFunctions["ArrowDown"] = () => changeVolume(-0.1);
+	shortcutFunctions["ArrowRight"] = () => seek(5);
+	shortcutFunctions["ArrowLeft"] = () => seek(-5);
 	document.body.addEventListener("keydown", evt => {
 		const fn = shortcutFunctions[evt.key];
 		if (fn) fn();
