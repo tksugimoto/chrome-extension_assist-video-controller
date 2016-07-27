@@ -57,4 +57,11 @@ if (videos.length === 1) {
 		}
 	};
 	video.addEventListener("dblclick", toggleFullScreen);
+
+	// キーボードショートカット
+	const shortcutFunctions = {};
+	document.body.addEventListener("keydown", evt => {
+		const fn = shortcutFunctions[evt.key];
+		if (fn) fn();
+	});
 }
