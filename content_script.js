@@ -60,6 +60,7 @@ if (videos.length === 1) {
 
 	// キーボードショートカット
 	const shortcutFunctions = {};
+	shortcutFunctions["Enter"] = toggleFullScreen;
 	document.body.addEventListener("keydown", evt => {
 		const fn = shortcutFunctions[evt.key];
 		if (fn) fn();
