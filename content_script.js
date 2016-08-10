@@ -82,6 +82,8 @@ Promise.resolve(document.getElementsByTagName("video")).then(videos => {
 		shortcutFunctions["ArrowRight"] = () => seek(5);
 		shortcutFunctions["ArrowLeft"] = () => seek(-5);
 		document.body.addEventListener("keydown", evt => {
+			const tagName = evt.target.tagName;
+			if (tagName === "TEXTAREA" || tagName === "INPUT") return;
 			const fn = shortcutFunctions[evt.key];
 			if (fn) fn();
 		});
