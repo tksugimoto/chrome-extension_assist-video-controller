@@ -1,6 +1,20 @@
-const videos = document.getElementsByTagName("video");
-if (videos.length === 1) {
-	const video = videos[0];
+Promise.resolve(document.getElementsByTagName("video")).then(videos => {
+	if (typeof window.targetVideoSrc !== "undefined") {
+		const targetVideos = Array.from(videos).filter(video => {
+			if (video.src === targetVideoSrc) return true;
+			return Array.from(video.getElementsByTagName("source")).find(source => {
+				return source.src === targetVideoSrc;
+			});
+		});
+		return {videos, targetVideos}
+	} else {
+		return {videos, targetVideos: videos}
+	}
+}).then(({videos, targetVideos}) => {
+	if (targetVideos.length === 1) return {videos, targetVideo: targetVideos[0]};
+	throw "対象<video>が複数存在";
+}).then(({videos, targetVideo}) => {
+	const video = targetVideo;
 
 	// プレイヤーをクリックで再生/一時停止
 	let nowPlaying = true;
@@ -33,6 +47,7 @@ if (videos.length === 1) {
 		video.currentTime += diff;
 	};
 	video.addEventListener("wheel", evt => {
+		evt.preventDefault();
 		// 下方向へのスクロール: 正
 		const toBottom = evt.deltaY > 0;
 		const pxFromBottom = video.clientHeight - evt.offsetY;
@@ -58,15 +73,17 @@ if (videos.length === 1) {
 	};
 	video.addEventListener("dblclick", toggleFullScreen);
 
-	// キーボードショートカット
-	const shortcutFunctions = {};
-	shortcutFunctions["Enter"] = toggleFullScreen;
-	shortcutFunctions["ArrowUp"] = () => changeVolume(0.1);
-	shortcutFunctions["ArrowDown"] = () => changeVolume(-0.1);
-	shortcutFunctions["ArrowRight"] = () => seek(5);
-	shortcutFunctions["ArrowLeft"] = () => seek(-5);
-	document.body.addEventListener("keydown", evt => {
-		const fn = shortcutFunctions[evt.key];
-		if (fn) fn();
-	});
-}
+	if (videos.length === 1) {
+		// キーボードショートカット
+		const shortcutFunctions = {};
+		shortcutFunctions["Enter"] = toggleFullScreen;
+		shortcutFunctions["ArrowUp"] = () => changeVolume(0.1);
+		shortcutFunctions["ArrowDown"] = () => changeVolume(-0.1);
+		shortcutFunctions["ArrowRight"] = () => seek(5);
+		shortcutFunctions["ArrowLeft"] = () => seek(-5);
+		document.body.addEventListener("keydown", evt => {
+			const fn = shortcutFunctions[evt.key];
+			if (fn) fn();
+		});
+	}
+});
