@@ -12,6 +12,7 @@ Promise.resolve(document.getElementsByTagName("video")).then(videos => {
 	}
 }).then(({videos, targetVideos}) => {
 	if (targetVideos.length === 1) return {videos, targetVideo: targetVideos[0]};
+	if (targetVideos.length === 0) throw "対象<video>が存在しない";
 	throw "対象<video>が複数存在";
 }).then(({videos, targetVideo}) => {
 	const video = targetVideo;
