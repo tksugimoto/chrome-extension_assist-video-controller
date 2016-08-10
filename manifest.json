@@ -19,6 +19,7 @@
 
 	"content_scripts": [{
 		"matches": [
+			"http://*/*.mp4",
 			"file:///*.mp4"
 		],
 		"js": [
