@@ -80,13 +80,15 @@ Promise.resolve(document.getElementsByTagName("video")).then(videos => {
 		shortcutFunctions["Enter"] = toggleFullScreen;
 		shortcutFunctions["ArrowUp"] = () => changeVolume(0.1);
 		shortcutFunctions["ArrowDown"] = () => changeVolume(-0.1);
-		shortcutFunctions["ArrowRight"] = () => seek(5);
-		shortcutFunctions["ArrowLeft"] = () => seek(-5);
+		shortcutFunctions["ArrowRight"] = ({ctrl} = {}) => seek(ctrl ? 90 : 5);
+		shortcutFunctions["ArrowLeft"] = ({ctrl} = {}) => seek(ctrl ? -90 : -5);
 		document.body.addEventListener("keydown", evt => {
 			const tagName = evt.target.tagName;
 			if (tagName === "TEXTAREA" || tagName === "INPUT") return;
 			const fn = shortcutFunctions[evt.key];
-			if (fn) fn();
+			if (fn) fn({
+				ctrl: evt.ctrlKey
+			});
 		});
 	}
 });
