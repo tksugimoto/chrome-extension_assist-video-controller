@@ -86,9 +86,12 @@ Promise.resolve(document.getElementsByTagName("video")).then(videos => {
 			const tagName = evt.target.tagName;
 			if (tagName === "TEXTAREA" || tagName === "INPUT") return;
 			const fn = shortcutFunctions[evt.key];
-			if (fn) fn({
-				ctrl: evt.ctrlKey
-			});
+			if (fn) {
+				evt.preventDefault();
+				fn({
+					ctrl: evt.ctrlKey
+				});
+			}
 		});
 	}
 });
