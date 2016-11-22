@@ -25,13 +25,15 @@ Promise.resolve(document.getElementsByTagName("video")).then(videos => {
 	video.addEventListener("pause", () => {
 		nowPlaying = false;
 	});
-	video.addEventListener("click", evt => {
+	const playPause = () => {
 		if (nowPlaying) {
 			video.pause();
 		} else {
 			video.play();
 		}
-	});
+	};
+	video.addEventListener("click", playPause);
+
 
 	// ホイールで音量変更
 	// 下から40pxの領域ではシークする
@@ -77,6 +79,7 @@ Promise.resolve(document.getElementsByTagName("video")).then(videos => {
 	if (videos.length === 1) {
 		// キーボードショートカット
 		const shortcutFunctions = {};
+		shortcutFunctions[" "] = playPause;
 		shortcutFunctions["Enter"] = toggleFullScreen;
 		shortcutFunctions["ArrowUp"] = () => changeVolume(0.1);
 		shortcutFunctions["ArrowDown"] = () => changeVolume(-0.1);
