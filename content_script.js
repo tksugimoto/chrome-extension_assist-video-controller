@@ -75,6 +75,10 @@ Promise.resolve(document.getElementsByTagName("video")).then(videos => {
 		}
 	};
 	video.addEventListener("dblclick", toggleFullScreen);
+	const WHEEL_BUTTON = 1;
+	video.addEventListener("mouseup", evt => {
+		if (evt.button === WHEEL_BUTTON) toggleFullScreen();
+	});
 
 	if (videos.length === 1) {
 		// キーボードショートカット
