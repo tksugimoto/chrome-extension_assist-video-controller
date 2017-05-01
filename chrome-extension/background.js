@@ -26,7 +26,7 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
 		}, () => {
 			chrome.tabs.executeScript(tab.id, {
 				frameId: info.frameId,
-				file: "content_script.js"
+				file: "VideoPlayerController.js"
 			});
 		});
 	}

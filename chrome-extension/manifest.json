@@ -23,7 +23,7 @@
 			"file:///*.mp4"
 		],
 		"js": [
-			"content_script.js"
+			"VideoPlayerController.js"
 		]
 	}]
 }
