@@ -1,6 +1,6 @@
 "use strict";
 
-var CONTEXT_MENU_ID = "a";
+const CONTEXT_MENU_ID = "a";
 
 const createContextMenu = () => {
 	chrome.contextMenus.create({
