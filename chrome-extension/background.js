@@ -1,8 +1,8 @@
 "use strict";
 
-var CONTEXT_MENU_ID = "a";
+const CONTEXT_MENU_ID = "a";
 
-function createContextMenus() {
+const createContextMenu = () => {
 	chrome.contextMenus.create({
 		title: "Videoコントローラー補助",
 		contexts: ["video"],
@@ -12,13 +12,12 @@ function createContextMenus() {
 		],
 		id: CONTEXT_MENU_ID
 	});
-}
+};
 
-chrome.runtime.onInstalled.addListener(createContextMenus);
-chrome.runtime.onStartup.addListener(createContextMenus);
+chrome.runtime.onInstalled.addListener(createContextMenu);
+chrome.runtime.onStartup.addListener(createContextMenu);
 
 chrome.contextMenus.onClicked.addListener((info, tab) => {
-	console.log(info, tab);
 	if (info.menuItemId === CONTEXT_MENU_ID) {
 		chrome.tabs.executeScript(tab.id, {
 			frameId: info.frameId,
@@ -26,7 +25,7 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
 		}, () => {
 			chrome.tabs.executeScript(tab.id, {
 				frameId: info.frameId,
-				file: "content_script.js"
+				file: "VideoPlayerController.js"
 			});
 		});
 	}
