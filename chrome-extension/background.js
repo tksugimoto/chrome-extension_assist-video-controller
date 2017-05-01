@@ -2,7 +2,7 @@
 
 var CONTEXT_MENU_ID = "a";
 
-function createContextMenu() {
+const createContextMenu = () => {
 	chrome.contextMenus.create({
 		title: "Videoコントローラー補助",
 		contexts: ["video"],
@@ -12,7 +12,7 @@ function createContextMenu() {
 		],
 		id: CONTEXT_MENU_ID
 	});
-}
+};
 
 chrome.runtime.onInstalled.addListener(createContextMenu);
 chrome.runtime.onStartup.addListener(createContextMenu);
