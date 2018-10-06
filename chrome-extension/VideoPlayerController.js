@@ -6,9 +6,9 @@ Promise.resolve(document.getElementsByTagName('video')).then(videos => {
 				return source.src === targetVideoSrc;
 			});
 		});
-		return {videos, targetVideos}
+		return {videos, targetVideos};
 	} else {
-		return {videos, targetVideos: videos}
+		return {videos, targetVideos: videos};
 	}
 }).then(({videos, targetVideos}) => {
 	if (targetVideos.length === 1) return {videos, targetVideo: targetVideos[0]};
