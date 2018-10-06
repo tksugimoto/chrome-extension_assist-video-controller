@@ -1,5 +1,6 @@
 Promise.resolve(document.getElementsByTagName('video')).then(videos => {
-	if (typeof window.targetVideoSrc !== 'undefined') {
+	const targetVideoSrc = window.targetVideoSrc;
+	if (typeof targetVideoSrc !== 'undefined') {
 		const targetVideos = Array.from(videos).filter(video => {
 			if (video.src === targetVideoSrc) return true;
 			return Array.from(video.getElementsByTagName('source')).find(source => {
