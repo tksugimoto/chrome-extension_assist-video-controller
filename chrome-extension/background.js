@@ -8,9 +8,9 @@ const createContextMenu = () => {
 		contexts: ['video'],
 		documentUrlPatterns: [
 			'http://*/*',
-			'https://*/*'
+			'https://*/*',
 		],
-		id: CONTEXT_MENU_ID
+		id: CONTEXT_MENU_ID,
 	});
 };
 
@@ -21,11 +21,11 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
 	if (info.menuItemId === CONTEXT_MENU_ID) {
 		chrome.tabs.executeScript(tab.id, {
 			frameId: info.frameId,
-			code: `window.targetVideoSrc = '${info.srcUrl}';`
+			code: `window.targetVideoSrc = '${info.srcUrl}';`,
 		}, () => {
 			chrome.tabs.executeScript(tab.id, {
 				frameId: info.frameId,
-				file: 'VideoPlayerController.js'
+				file: 'VideoPlayerController.js',
 			});
 		});
 	}

@@ -96,7 +96,7 @@ Promise.resolve(document.getElementsByTagName('video')).then(videos => {
 			if (fn) {
 				evt.preventDefault();
 				fn({
-					ctrl: evt.ctrlKey
+					ctrl: evt.ctrlKey,
 				});
 			}
 		});
