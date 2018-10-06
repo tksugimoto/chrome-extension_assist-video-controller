@@ -1,28 +1,29 @@
-Promise.resolve(document.getElementsByTagName("video")).then(videos => {
-	if (typeof window.targetVideoSrc !== "undefined") {
+Promise.resolve(document.getElementsByTagName('video')).then(videos => {
+	const targetVideoSrc = window.targetVideoSrc;
+	if (typeof targetVideoSrc !== 'undefined') {
 		const targetVideos = Array.from(videos).filter(video => {
 			if (video.src === targetVideoSrc) return true;
-			return Array.from(video.getElementsByTagName("source")).find(source => {
+			return Array.from(video.getElementsByTagName('source')).find(source => {
 				return source.src === targetVideoSrc;
 			});
 		});
-		return {videos, targetVideos}
+		return {videos, targetVideos};
 	} else {
-		return {videos, targetVideos: videos}
+		return {videos, targetVideos: videos};
 	}
 }).then(({videos, targetVideos}) => {
 	if (targetVideos.length === 1) return {videos, targetVideo: targetVideos[0]};
-	if (targetVideos.length === 0) throw "対象<video>が存在しない";
-	throw "対象<video>が複数存在";
+	if (targetVideos.length === 0) throw '対象<video>が存在しない';
+	throw '対象<video>が複数存在';
 }).then(({videos, targetVideo}) => {
 	const video = targetVideo;
 
 	// プレイヤーをクリックで再生/一時停止
 	let nowPlaying = true;
-	video.addEventListener("play", () => {
+	video.addEventListener('play', () => {
 		nowPlaying = true;
 	});
-	video.addEventListener("pause", () => {
+	video.addEventListener('pause', () => {
 		nowPlaying = false;
 	});
 	const playPause = () => {
@@ -32,7 +33,7 @@ Promise.resolve(document.getElementsByTagName("video")).then(videos => {
 			video.play();
 		}
 	};
-	video.addEventListener("click", playPause);
+	video.addEventListener('click', playPause);
 
 
 	// ホイールで音量変更
@@ -49,7 +50,7 @@ Promise.resolve(document.getElementsByTagName("video")).then(videos => {
 	const seek = diff => {
 		video.currentTime += diff;
 	};
-	video.addEventListener("wheel", evt => {
+	video.addEventListener('wheel', evt => {
 		evt.preventDefault();
 		// 下方向へのスクロール: 正
 		const toBottom = evt.deltaY > 0;
@@ -74,29 +75,29 @@ Promise.resolve(document.getElementsByTagName("video")).then(videos => {
 			requestFullScreen(video);
 		}
 	};
-	video.addEventListener("dblclick", toggleFullScreen);
+	video.addEventListener('dblclick', toggleFullScreen);
 	const WHEEL_BUTTON = 1;
-	video.addEventListener("mouseup", evt => {
+	video.addEventListener('mouseup', evt => {
 		if (evt.button === WHEEL_BUTTON) toggleFullScreen();
 	});
 
 	if (videos.length === 1) {
 		// キーボードショートカット
 		const shortcutFunctions = {};
-		shortcutFunctions[" "] = playPause;
-		shortcutFunctions["Enter"] = toggleFullScreen;
-		shortcutFunctions["ArrowUp"] = () => changeVolume(0.1);
-		shortcutFunctions["ArrowDown"] = () => changeVolume(-0.1);
-		shortcutFunctions["ArrowRight"] = ({ctrl} = {}) => seek(ctrl ? 90 : 5);
-		shortcutFunctions["ArrowLeft"] = ({ctrl} = {}) => seek(ctrl ? -90 : -5);
-		document.body.addEventListener("keydown", evt => {
+		shortcutFunctions[' '] = playPause;
+		shortcutFunctions['Enter'] = toggleFullScreen;
+		shortcutFunctions['ArrowUp'] = () => changeVolume(0.1);
+		shortcutFunctions['ArrowDown'] = () => changeVolume(-0.1);
+		shortcutFunctions['ArrowRight'] = ({ctrl} = {}) => seek(ctrl ? 90 : 5);
+		shortcutFunctions['ArrowLeft'] = ({ctrl} = {}) => seek(ctrl ? -90 : -5);
+		document.body.addEventListener('keydown', evt => {
 			const tagName = evt.target.tagName;
-			if (tagName === "TEXTAREA" || tagName === "INPUT") return;
+			if (tagName === 'TEXTAREA' || tagName === 'INPUT') return;
 			const fn = shortcutFunctions[evt.key];
 			if (fn) {
 				evt.preventDefault();
 				fn({
-					ctrl: evt.ctrlKey
+					ctrl: evt.ctrlKey,
 				});
 			}
 		});
