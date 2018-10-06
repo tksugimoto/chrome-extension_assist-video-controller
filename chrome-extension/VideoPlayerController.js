@@ -81,6 +81,13 @@ Promise.resolve(document.getElementsByTagName('video')).then(videos => {
 		if (evt.button === WHEEL_BUTTON) toggleFullScreen();
 	});
 
+	const changeSpeed = delta => {
+		video.playbackRate += delta;
+	};
+	const resetSpeed = () => {
+		video.playbackRate = 1;
+	};
+
 	if (videos.length === 1) {
 		// キーボードショートカット
 		const shortcutFunctions = {};
@@ -90,6 +97,9 @@ Promise.resolve(document.getElementsByTagName('video')).then(videos => {
 		shortcutFunctions['ArrowDown'] = () => changeVolume(-0.1);
 		shortcutFunctions['ArrowRight'] = ({ctrl} = {}) => seek(ctrl ? 90 : 5);
 		shortcutFunctions['ArrowLeft'] = ({ctrl} = {}) => seek(ctrl ? -90 : -5);
+		shortcutFunctions['1'] = () => changeSpeed(-0.1);
+		shortcutFunctions['2'] = resetSpeed;
+		shortcutFunctions['3'] = () => changeSpeed(0.1);
 		document.body.addEventListener('keydown', evt => {
 			const tagName = evt.target.tagName;
 			if (tagName === 'TEXTAREA' || tagName === 'INPUT') return;
