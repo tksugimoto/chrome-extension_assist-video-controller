@@ -1,14 +1,14 @@
-"use strict";
+'use strict';
 
-const CONTEXT_MENU_ID = "a";
+const CONTEXT_MENU_ID = 'a';
 
 const createContextMenu = () => {
 	chrome.contextMenus.create({
-		title: "Videoコントローラー補助",
-		contexts: ["video"],
+		title: 'Videoコントローラー補助',
+		contexts: ['video'],
 		documentUrlPatterns: [
-			"http://*/*",
-			"https://*/*"
+			'http://*/*',
+			'https://*/*'
 		],
 		id: CONTEXT_MENU_ID
 	});
@@ -21,11 +21,11 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
 	if (info.menuItemId === CONTEXT_MENU_ID) {
 		chrome.tabs.executeScript(tab.id, {
 			frameId: info.frameId,
-			code: `window.targetVideoSrc = "${info.srcUrl}";`
+			code: `window.targetVideoSrc = '${info.srcUrl}';`
 		}, () => {
 			chrome.tabs.executeScript(tab.id, {
 				frameId: info.frameId,
-				file: "VideoPlayerController.js"
+				file: 'VideoPlayerController.js'
 			});
 		});
 	}
