@@ -33,7 +33,6 @@ Promise.resolve(document.getElementsByTagName('video')).then(videos => {
 			video.play();
 		}
 	};
-	video.addEventListener('click', playPause);
 
 
 	// ホイールで音量変更
