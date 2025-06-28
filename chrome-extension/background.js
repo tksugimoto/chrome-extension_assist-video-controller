@@ -22,21 +22,19 @@ chrome.runtime.onStartup.addListener(createContextMenu);
 
 chrome.contextMenus.onClicked.addListener((info, tab) => {
 	if (info.menuItemId === CONTEXT_MENU_ID) {
-		if (!info.srcUrl) { // 'page' の場合 undefined
+		const injectScript = () => {
 			chrome.tabs.executeScript(tab.id, {
 				frameId: info.frameId,
 				file: 'VideoPlayerController.js',
 			});
+		};
+		if (!info.srcUrl) { // 'page' の場合 undefined
+			injectScript();
 			return;
 		}
 		chrome.tabs.executeScript(tab.id, {
 			frameId: info.frameId,
 			code: `window.targetVideoSrc = '${info.srcUrl}';`,
-		}, () => {
-			chrome.tabs.executeScript(tab.id, {
-				frameId: info.frameId,
-				file: 'VideoPlayerController.js',
-			});
-		});
+		}, injectScript);
 	}
 });
