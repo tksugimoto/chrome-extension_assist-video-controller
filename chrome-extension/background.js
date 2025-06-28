@@ -5,7 +5,10 @@ const CONTEXT_MENU_ID = 'a';
 const createContextMenu = () => {
 	chrome.contextMenus.create({
 		title: 'Videoコントローラー補助',
-		contexts: ['video'],
+		contexts: [
+			'video',
+			'page',
+		],
 		documentUrlPatterns: [
 			'http://*/*',
 			'https://*/*',
@@ -19,6 +22,13 @@ chrome.runtime.onStartup.addListener(createContextMenu);
 
 chrome.contextMenus.onClicked.addListener((info, tab) => {
 	if (info.menuItemId === CONTEXT_MENU_ID) {
+		if (!info.srcUrl) { // 'page' の場合 undefined
+			chrome.tabs.executeScript(tab.id, {
+				frameId: info.frameId,
+				file: 'VideoPlayerController.js',
+			});
+			return;
+		}
 		chrome.tabs.executeScript(tab.id, {
 			frameId: info.frameId,
 			code: `window.targetVideoSrc = '${info.srcUrl}';`,
