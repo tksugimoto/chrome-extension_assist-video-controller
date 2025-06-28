@@ -23,18 +23,25 @@ chrome.runtime.onStartup.addListener(createContextMenu);
 chrome.contextMenus.onClicked.addListener((info, tab) => {
 	if (info.menuItemId === CONTEXT_MENU_ID) {
 		const injectScript = () => {
-			chrome.tabs.executeScript(tab.id, {
-				frameId: info.frameId,
-				file: 'VideoPlayerController.js',
+			chrome.scripting.executeScript({
+				target: {
+					tabId: tab.id,
+					frameIds: [info.frameId],
+				},
+				files: ['VideoPlayerController.js'],
 			});
 		};
 		if (!info.srcUrl) { // 'page' の場合 undefined
 			injectScript();
 			return;
 		}
-		chrome.tabs.executeScript(tab.id, {
-			frameId: info.frameId,
-			code: `window.targetVideoSrc = '${info.srcUrl}';`,
+		chrome.scripting.executeScript({
+			target: {
+				tabId: tab.id,
+				frameIds: [info.frameId],
+			},
+			func: (src) => window.targetVideoSrc = src,
+			args: [info.srcUrl],
 		}, injectScript);
 	}
 });
